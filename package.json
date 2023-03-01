@@ -4,7 +4,8 @@
     "private": true,
     "workspaces": [
         "apps/*",
-        "packages/*"
+        "packages/*",
+        "config/*"
     ],
     "scripts": {
         "build": "turbo run build",
@@ -13,7 +14,6 @@
         "test:watch": "turbo run test:watch",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\""
-
     },
     "devDependencies": {
         "eslint-config-custom": "*",
