@@ -9,3 +9,6 @@ Running docker-compose will spin up a postgres instance so we don't have to inst
 ```
 docker-compose up -d
 ```
+
+- Using [Keycloak](https://www.keycloak.org/) for IAM Service
+- postgresql as the database
