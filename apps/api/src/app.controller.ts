@@ -1,12 +1,43 @@
-import { Controller, Get } from "@nestjs/common";
-import { AppService } from "./app.service";
+import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { User as UserModel } from "@prisma/client";
+import { AuthService } from "./auth/auth.service";
+import { LocalAuthGuard } from "./auth/local.guard";
+import { UserService } from "./user/user.service";
+import { JwtAuthGuard } from "./auth/jwt.guard";
 
 @Controller()
 export class AppController {
-    constructor(private readonly appService: AppService) {}
+    constructor(private readonly userService: UserService, private readonly authService: AuthService) {}
 
-    @Get()
-    getHello(): string {
-        return this.appService.getHello();
+    // @Get("users")
+    // async getUser(): Promise<UserModel[]> {
+    //     return this.userService.users({});
+    // }
+
+    // TODO: DTO'S
+    @Post("auth/signup")
+    async signup(@Body() user: { username: string; password: string }): Promise<Omit<UserModel, "password">> {
+        const createdUser = await this.userService.create(user);
+        const { password, ...newUser } = createdUser;
+        return newUser;
+    }
+
+    @UseGuards(LocalAuthGuard)
+    @Post("auth/login")
+    async login(@Request() request) {
+        return this.authService.validateLogin(request.user);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("profile")
+    getProfile(@Request() req) {
+        return req.user;
+    }
+
+    @Get("examples")
+    async getExamples() {
+        return {
+            data: [{ name: "example 1" }],
+        };
     }
 }
