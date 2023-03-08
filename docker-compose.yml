@@ -4,13 +4,46 @@ services:
     postgres:
         image: postgres:14
         environment:
-            - POSTGRES_DB=budgetdb
-            - POSTGRES_USER=test
-            - POSTGRES_PASSWORD=test
+            - POSTGRES_MULTIPLE_DATABASES=budgetdb,keycloakdb
+            - POSTGRES_USER=budgetadmin
+            - POSTGRES_PASSWORD=budgetadmin
+        networks:
+            - backend
         volumes:
-            - postgres:/data/postgres/db
+            - dbdata:/data/postgres/db
+            - ./scripts/databases.sh:/docker-entrypoint-initdb.d/databases.sh
         ports:
             - "5432:5432"
 
+    keycloak:
+        image: quay.io/keycloak/keycloak:21.0.1
+        command: 
+            - start-dev
+            - --import-realm
+        environment:
+            KC_DB: postgres
+            # docker looks at the service name as the host so "postgres" in the url is the "localhost" equivilant
+            KC_DB_URL: "jdbc:postgresql://postgres/keycloakdb"
+            KC_DB_USERNAME: budgetadmin
+            KC_DB_PASSWORD: budgetadmin
+            KEYCLOAK_ADMIN: budgetadmin
+            KEYCLOAK_ADMIN_PASSWORD: budgetadmin
+            KC_HOSTNAME: localhost                
+        networks:
+            - backend
+        links:
+            - postgres
+        volumes:
+            # mount config to import our developer realm
+            - ./config/mybudget-realm.json:/opt/keycloak/data/import/realm.json
+        ports:
+            -  "8080:8080"
+        depends_on:
+            - postgres
+
 volumes:
-    postgres:
+    dbdata:
+
+networks:
+    backend:
+        name: backend

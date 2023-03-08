@@ -3,12 +3,16 @@ import { Button } from "../../components";
 import { SidebarLayout } from "../../layouts";
 import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { client } from "../../utils/client";
 
 export const Dashboard: React.FC = () => {
+    const { logout } = useAuth();
+
     useEffect(() => {
         (async () => {
-            const results = await fetch("api/examples");
-            console.log(await results.json());
+            const results = await client("examples");
+            console.log(results);
         })();
     }, []);
 
@@ -45,6 +49,7 @@ export const Dashboard: React.FC = () => {
     return (
         <SidebarLayout>
             <Button onClick={handleClick}>Click Me</Button>
+            <Button onClick={() => logout()}>Log Out</Button>
         </SidebarLayout>
     );
 };
