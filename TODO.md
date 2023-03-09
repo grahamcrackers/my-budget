@@ -16,7 +16,7 @@
 ## Backend Things
 
 -   [ ] Swagger Docs
--   [ ] Config Service
+-   [x] Config Service
 -   [ ] Input Validation
 
 ## Database Things

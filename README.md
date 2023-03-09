@@ -14,6 +14,10 @@ yarn install
 # these values should work for initial development, but you may want to change them
 cp .env.example .env
 
+# i can't get prisma to pick up environment variables from the root directory when running cli commands,
+# so for now, just copy the one in the example folder
+cp ./apps/api/.env.examples ./apps/api/.env
+
 # initialize docker compose
 docker compose up -d
 

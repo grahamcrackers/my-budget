@@ -1,20 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
-import { BudgetService } from "./budget.service";
-import { CreateBudgetDto } from "./dto/create-budget.dto";
-import { UpdateBudgetDto } from "./dto/update-budget.dto";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { Budget as BudgetModel, Prisma } from "@prisma/client";
+import { User, UserToken } from "../common";
+import { BudgetService } from "./budget.service";
+import { CreateWithUser } from "../common/decorators/create-with-user.decorator";
+import { UpdateWithUser } from "../common/decorators/update-with-user.decorator";
 
 @Controller("budgets")
 export class BudgetController {
     constructor(private readonly budgetService: BudgetService) {}
 
     @Post()
-    create(@Body() createBudgetDto: Prisma.BudgetCreateInput) {
-        return this.budgetService.create(createBudgetDto);
+    async create(@CreateWithUser() data: Prisma.BudgetCreateInput) {
+        return this.budgetService.create(data);
     }
 
     @Get()
-    findAll() {
+    async findAll() {
         return this.budgetService.findAll({});
     }
 
@@ -23,10 +24,10 @@ export class BudgetController {
         return this.budgetService.findOne({ id });
     }
 
-    // @Patch(":id")
-    // update(@Param("id") id: string, @Body() updateBudgetDto: UpdateBudgetDto) {
-    //     return this.budgetService.update(+id, updateBudgetDto);
-    // }
+    @Patch(":id")
+    update(@Param("id") id: string, @UpdateWithUser() data: Prisma.BudgetUpdateInput) {
+        return this.budgetService.update({ where: { id }, data });
+    }
 
     @Delete(":id")
     async remove(@Param("id") id: string): Promise<BudgetModel> {

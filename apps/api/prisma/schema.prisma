@@ -11,7 +11,7 @@ model Budget {
     id        String   @id @default(uuid())
     name      String
     created   DateTime @default(now())
-    createBy  String   @db.Uuid
+    createdBy String   @db.Uuid
     updated   DateTime @updatedAt
     updatedBy String   @db.Uuid
 

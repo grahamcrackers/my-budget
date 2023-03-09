@@ -1,14 +1,24 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { APP_GUARD } from "@nestjs/core";
 import { PrismaModule, PrismaService } from "nestjs-prisma";
 import { AppController } from "./app.controller";
-
-import { AuthModule } from "./auth/auth.module";
+import { AuthModule } from "./auth.module";
 import { BudgetModule } from "./budget/budget.module";
+import { JwtAuthGuard } from "./common";
 import { UserService } from "./user/user.service";
 
 @Module({
-    imports: [PrismaModule.forRoot({ isGlobal: true }), AuthModule, BudgetModule],
+    imports: [ConfigModule.forRoot(), PrismaModule.forRoot({ isGlobal: true }), AuthModule, BudgetModule],
     controllers: [AppController],
-    providers: [PrismaService, UserService],
+    providers: [
+        PrismaService,
+        UserService,
+        // globally protect all routes with jwt guard
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard,
+        },
+    ],
 })
 export class AppModule {}
