@@ -1,11 +1,14 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { client } from "../utils/client";
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import { keycloak } from "../utils/keycloak";
+
+/**
+ * would like to provide a more generic oidc provider where providers can be swapped out
+ */
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthContextState {
-    user: any;
-    signin(username: string, password: string): void;
-    signout(): void;
+    isAuthenticated: boolean;
+    logout(): void;
 }
 
 const AuthContext = createContext<AuthContextState | null>(null);
@@ -23,16 +26,26 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
-    const [user, setUser] = useState<any>();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-    const signin = async (username: string, password: string) => {
-        const result = await client("auth/login", { body: { username, password } });
-        console.log(result);
-        setUser(result);
+    const logout = () => {
+        keycloak.logout();
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const signout = () => {};
+    useEffect(() => {
+        (async () => {
+            try {
+                const authenticated = await keycloak.init({ onLoad: "login-required" });
+                if (!authenticated) {
+                    keycloak.login();
+                }
+                setIsAuthenticated(authenticated);
+            } catch {
+                setIsAuthenticated(false);
+            }
+        })();
+    }, []);
 
-    return <AuthContext.Provider value={{ user, signin, signout }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ isAuthenticated, logout }}>{children}</AuthContext.Provider>;
 };

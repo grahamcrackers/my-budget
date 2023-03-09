@@ -1,13 +1,11 @@
 import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
 import { User as UserModel } from "@prisma/client";
-import { AuthService } from "./auth/auth.service";
-import { LocalAuthGuard } from "./auth/local.guard";
 import { UserService } from "./user/user.service";
 import { JwtAuthGuard } from "./auth/jwt.guard";
 
 @Controller()
 export class AppController {
-    constructor(private readonly userService: UserService, private readonly authService: AuthService) {}
+    constructor(private readonly userService: UserService) {}
 
     // @Get("users")
     // async getUser(): Promise<UserModel[]> {
@@ -22,11 +20,11 @@ export class AppController {
         return newUser;
     }
 
-    @UseGuards(LocalAuthGuard)
-    @Post("auth/login")
-    async login(@Request() request) {
-        return this.authService.validateLogin(request.user);
-    }
+    // @UseGuards(LocalAuthGuard)
+    // @Post("auth/login")
+    // async login(@Request() request) {
+    //     return this.authService.validateLogin(request.user);
+    // }
 
     @UseGuards(JwtAuthGuard)
     @Get("profile")

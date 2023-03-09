@@ -5,7 +5,7 @@
     "workspaces": [
         "apps/*",
         "packages/*",
-        "config/*"
+        "local/*"
     ],
     "scripts": {
         "build": "turbo run build",
@@ -13,7 +13,10 @@
         "test": "turbo run test",
         "test:watch": "turbo run test:watch",
         "lint": "turbo run lint",
-        "format": "prettier --write \"**/*.{ts,tsx,md}\""
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "docker:setup": "docker compose up",
+        "docker:destroy": "docker compose down -v",
+        "docker:bash": "docker exec -it "
     },
     "devDependencies": {
         "dotenv-cli": "^7.0.0",

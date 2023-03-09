@@ -1,3 +1,5 @@
+import { keycloak } from "./keycloak";
+
 type Client = typeof fetch;
 
 /**
@@ -5,19 +7,19 @@ type Client = typeof fetch;
  *
  * @see https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
  */
-export const client = (endpoint: string, { body, ...clientConfig }: any = {}) => {
-    const headers = { "content-type": "application/json" };
-
-    // if (token) {
-    //     headers.Authorization = `Bearer ${token}`;
-    // }
+export const client: Client = (endpoint, { body, ...init } = {}) => {
+    const headers: HeadersInit = { "content-type": "application/json" };
+    console.log(keycloak.token);
+    if (keycloak.token) {
+        headers.Authorization = `Bearer ${keycloak.token}`;
+    }
 
     const config: RequestInit = {
         method: body ? "POST" : "GET",
-        ...clientConfig,
+        ...init,
         headers: {
             ...headers,
-            ...clientConfig.headers,
+            ...init.headers,
         },
     };
 
