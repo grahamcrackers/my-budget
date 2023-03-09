@@ -1,21 +1,27 @@
 # TODO
 
--   [ ] move eslint and tsconfig to their own config package
--   [ ] use docker so we can isolate our database
+## Docker Things
 
-## Environment/Docker
--  [ ] Keycloak set up in docker
--  [ ] Configuring Keycloak when setting up the project
--  [ ] Create reverse proxy so everything can be on one domain
--  [ ] seed database
+-   [ ] Figure out how to inject client secret from .env file to keycloak's admin cli
+-   [ ] nginx reverse proxy so everything can be on one domain locally
 
-## Frontend
+## Monorepo Things
+
+-   [ ] move eslint and tsconfig in api app to their own config package
+
+## Frontend Things
 
 -   [ ] Keycloak custom login/register screens
 
-## Backend
--   [ ] Better Keycloak setup with docker-compose
+## Backend Things
 
+-   [ ] Swagger Docs
+-   [ ] Config Service
+-   [ ] Input Validation
+
+## Database Things
+
+-   [ ] seed database
 -   [ ] Budgets
     -   [ ] Categories
 -   [ ] Accounts
