@@ -7,20 +7,13 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model User {
-    id       String   @id @default(uuid())
-    username String   @unique
-    password String?
-    budgets  Budget[]
-
-    @@map("users")
-}
-
 model Budget {
-    id     String  @id @default(uuid())
-    name   String
-    userId String?
-    user   User?   @relation(fields: [userId], references: [id])
+    id        String   @id @default(uuid())
+    name      String
+    created   DateTime @default(now())
+    createBy  String   @db.Uuid
+    updated   DateTime @updatedAt
+    updatedBy String   @db.Uuid
 
     @@map("budgets")
 }
