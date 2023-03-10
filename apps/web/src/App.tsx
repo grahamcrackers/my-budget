@@ -1,31 +1,8 @@
-// import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Dashboard } from "./pages";
-
-// const router = createBrowserRouter([
-//     {
-//         path: "/",
-//         element: <Dashboard />,
-//     },
-//     {
-//         path: "/signin",
-//         element: <Signin />,
-//     },
-// ]);
-
-// const App: React.FC = () => {
-//     // TODO: better authentication
-
-//     return (
-//         <>
-//             <RouterProvider router={router} />
-//             <Toaster />
-//         </>
-//     );
-// };
-
-// export default App;
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
+import { SidebarLayout } from "./layouts";
+import { Account } from "./pages/Account/Account";
+import { Budget } from "./pages/Budget/Budget";
 
 export const App = () => {
     const { isAuthenticated } = useAuth();
@@ -36,14 +13,13 @@ export const App = () => {
 
     return (
         <BrowserRouter>
-            {/* <NavBar /> */}
-
             <Routes>
-                <Route path="/" element={<Dashboard />} />
-                {/* <Route path="/resource" element={<Resources />} /> */}
+                <Route path="/" element={<SidebarLayout />}>
+                    <Route path="budget" element={<Budget />} />
+                    <Route path="account" element={<Account />} />
+                    <Route path="*" element={<Navigate to="/budget" replace={true} />} />
+                </Route>
             </Routes>
-
-            {/* <Footer /> */}
         </BrowserRouter>
     );
 };

@@ -5,13 +5,14 @@ import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { client } from "../../utils/client";
+import { Outlet } from "react-router-dom";
 
 export const Dashboard: React.FC = () => {
     const { logout } = useAuth();
 
     useEffect(() => {
         (async () => {
-            const results = await client("examples");
+            const results = await client("budgets");
             console.log(results);
         })();
     }, []);
@@ -48,8 +49,9 @@ export const Dashboard: React.FC = () => {
 
     return (
         <SidebarLayout>
-            <Button onClick={handleClick}>Click Me</Button>
-            <Button onClick={() => logout()}>Log Out</Button>
+            {/* <Button onClick={handleClick}>Click Me</Button> */}
+            {/* <Button onClick={() => logout()}>Log Out</Button> */}
+            <Outlet />
         </SidebarLayout>
     );
 };

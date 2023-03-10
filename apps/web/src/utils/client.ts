@@ -9,7 +9,7 @@ type Client = typeof fetch;
  */
 export const client: Client = (endpoint, { body, ...init } = {}) => {
     const headers: HeadersInit = { "content-type": "application/json" };
-    console.log(keycloak.token);
+
     if (keycloak.token) {
         headers.Authorization = `Bearer ${keycloak.token}`;
     }
