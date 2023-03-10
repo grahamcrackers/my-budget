@@ -1,7 +1,8 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { PrismaService } from "nestjs-prisma";
 import { Logger } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { PrismaService } from "nestjs-prisma";
+import { AppModule } from "./app.module";
 
 const PORT = 3000;
 
@@ -19,7 +20,15 @@ async function bootstrap() {
     const prismaService = app.get(PrismaService);
     await prismaService.enableShutdownHooks(app);
 
-    // TODO: swagger docs
+    // OpenAPI/Swagger Docs
+    const openApiConfig = new DocumentBuilder()
+        .setTitle("My Budget API")
+        .setDescription("My Budget API description")
+        .setVersion("1.0")
+        .addBearerAuth()
+        .build();
+    const document = SwaggerModule.createDocument(app, openApiConfig);
+    SwaggerModule.setup("api", app, document);
 
     // start up our application
     // const port = config.get("HOST_PORT") || 4000;
