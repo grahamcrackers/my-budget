@@ -8,12 +8,28 @@ datasource db {
 }
 
 model Budget {
+    id        String    @id @default(uuid())
+    name      String
+    created   DateTime  @default(now())
+    createdBy String    @db.Uuid
+    updated   DateTime  @updatedAt
+    updatedBy String    @db.Uuid
+    Account   Account[]
+
+    @@map("budgets")
+}
+
+model Account {
     id        String   @id @default(uuid())
     name      String
+    balance   Int      @default(0)
+    type      String?
     created   DateTime @default(now())
     createdBy String   @db.Uuid
     updated   DateTime @updatedAt
     updatedBy String   @db.Uuid
+    budget    Budget   @relation(fields: [budgetId], references: [id])
+    budgetId  String
 
-    @@map("budgets")
+    @@map("accounts")
 }

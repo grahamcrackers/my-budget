@@ -1,11 +1,5 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { Request } from "express";
-import { KeycloakTokenParsed } from "keycloak-js";
-
-export type UserToken = KeycloakTokenParsed;
-
-/** adds the oidc user type to express's user */
-export type OidcRequest = Omit<Request, "user"> & { user: UserToken };
+import { OidcRequest } from "../../types";
 
 /**
  * A custom decorator that takes the user id from the user object on request and adds it to the body.

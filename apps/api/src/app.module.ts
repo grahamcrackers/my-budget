@@ -7,9 +7,16 @@ import { AuthModule } from "./auth.module";
 import { BudgetModule } from "./budget/budget.module";
 import { JwtAuthGuard } from "./common";
 import { UserService } from "./user/user.service";
+import { AccountModule } from "./account/account.module";
 
 @Module({
-    imports: [ConfigModule.forRoot(), PrismaModule.forRoot({ isGlobal: true }), AuthModule, BudgetModule],
+    imports: [
+        ConfigModule.forRoot(),
+        PrismaModule.forRoot({ isGlobal: true }),
+        AuthModule,
+        BudgetModule,
+        AccountModule,
+    ],
     controllers: [AppController],
     providers: [
         PrismaService,
