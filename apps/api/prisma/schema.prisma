@@ -8,13 +8,15 @@ datasource db {
 }
 
 model Budget {
-    id        String    @id @default(uuid())
-    name      String
-    created   DateTime  @default(now())
-    createdBy String    @db.Uuid
-    updated   DateTime  @updatedAt
-    updatedBy String    @db.Uuid
-    Account   Account[]
+    id         String    @id @default(uuid())
+    name       String
+    firstMonth DateTime  @default(now())
+    lastMonth  DateTime?  
+    created    DateTime  @default(now())
+    createdBy  String    @db.Uuid
+    updated    DateTime  @updatedAt
+    updatedBy  String    @db.Uuid
+    Account    Account[]
 
     @@map("budgets")
 }
@@ -24,6 +26,7 @@ model Account {
     name      String
     balance   Int      @default(0)
     type      String?
+    note      String?
     created   DateTime @default(now())
     createdBy String   @db.Uuid
     updated   DateTime @updatedAt
@@ -33,3 +36,8 @@ model Account {
 
     @@map("accounts")
 }
+
+
+// LKP Tables
+// DateFormat
+// CurrencyFormat

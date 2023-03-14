@@ -20,7 +20,7 @@
             "clientId": "mybudget-api",
             "enabled": true,
             "clientAuthenticatorType": "client-secret",
-            "secret": "xKxvTruFIsTF1EBG4Zcs8075vhM0FGIs",
+            "secret": "${JWT_SECRET_OR_KEY}",
             "redirectUris": [
               "http://localhost:3000/*"
             ],
