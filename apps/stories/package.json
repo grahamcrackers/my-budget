@@ -1,0 +1,51 @@
+{
+    "name": "@my-budget/stories",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "start-storybook -p 6006",
+        "build": "build-storybook",
+        "lint": "eslint \"src/**/*.ts\""
+    },
+    "dependencies": {
+        "@headlessui/react": "^1.7.12",
+        "@heroicons/react": "^2.0.16",
+        "keycloak-js": "^21.0.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-hook-form": "^7.43.4",
+        "react-hot-toast": "^2.4.0",
+        "react-router-dom": "^6.8.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.21.0",
+        "@my-budget/ui": "*",
+        "@storybook/addon-actions": "^6.5.16",
+        "@storybook/addon-essentials": "^6.5.16",
+        "@storybook/addon-interactions": "^6.5.16",
+        "@storybook/addon-links": "^6.5.16",
+        "@storybook/addon-styling": "^0.3.1",
+        "@storybook/builder-vite": "^0.4.2",
+        "@storybook/react": "^6.5.16",
+        "@storybook/testing-library": "^0.0.13",
+        "@tailwindcss/forms": "^0.5.3",
+        "@types/keycloak-js": "^3.4.1",
+        "@types/node": "^18.14.2",
+        "@types/react": "^18.0.27",
+        "@types/react-dom": "^18.0.10",
+        "@vitejs/plugin-react": "^3.1.0",
+        "autoprefixer": "^10.4.13",
+        "babel-loader": "^8.3.0",
+        "eslint": "^7.23.0",
+        "eslint-config-custom": "*",
+        "eslint-plugin-storybook": "^0.6.11",
+        "postcss": "^8.4.21",
+        "tailwind-config": "*",
+        "tailwindcss": "^3.2.7",
+        "tsconfig": "*",
+        "typescript": "^4.9.3",
+        "vite": "^4.1.0",
+        "vitest": "^0.29.2"
+    }
+}

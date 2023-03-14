@@ -16,7 +16,8 @@
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "docker:setup": "docker compose up",
         "docker:destroy": "docker compose down -v",
-        "docker:bash": "docker exec -it "
+        "docker:bash": "docker exec -it",
+        "clean": "./scripts/cleanup.sh"
     },
     "devDependencies": {
         "dotenv-cli": "^7.0.0",

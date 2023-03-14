@@ -4,6 +4,10 @@
         "**/.env.*local"
     ],
     "pipeline": {
+        "dev": {
+            "cache": false,
+            "persistent": true
+        },
         "build": {
             "dependsOn": [
                 "^build"    
@@ -16,9 +20,6 @@
         },
         "lint": {
             "outputs": []
-        },
-        "dev": {
-            "cache": false
         },
         "test": {},
         "test:watch": {

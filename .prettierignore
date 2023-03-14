@@ -9,6 +9,7 @@ prisma
 .turbo
 .cache
 dist
+build
 storybook
 
 # test
