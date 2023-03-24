@@ -1,5 +1,5 @@
 {
-    "name": "tsconfig",
+    "name": "@my-budget/tsconfig",
     "version": "0.0.0",
     "private": true,
     "files": [

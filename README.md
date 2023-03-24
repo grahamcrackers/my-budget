@@ -36,9 +36,8 @@ docker compose down
 docker compose down -v
 ```
 
--   Note: The `JWT_KEY_OR_SECRET` in the .env file should match the `secret` field in the `./config/mybudget-realm.json` file. I haven't figured out a way to inject the secret from the `.env` to the docker container yet.
-
 ## Helpful Articles
-- [Atomic Component Design](https://atomicdesign.bradfrost.com/chapter-2/)
-- [Typescript + React Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
-- [Error Handling](https://medium.com/with-orus/the-5-commandments-of-clean-error-handling-in-typescript-93a9cbdf1af5)
+
+-   [Atomic Component Design](https://atomicdesign.bradfrost.com/chapter-2/)
+-   [Typescript + React Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
+-   [Error Handling](https://medium.com/with-orus/the-5-commandments-of-clean-error-handling-in-typescript-93a9cbdf1af5)
