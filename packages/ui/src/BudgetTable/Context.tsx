@@ -18,8 +18,10 @@ const BudgetTableContext = createContext<
     | ({
           checkboxRef: MutableRefObject<HTMLInputElement | null>;
           checked: boolean;
+          allHidden: boolean;
           selectedCategories: Category[];
           selectedGroups: CategoryGroup[];
+          setAllHidden(allHidden: boolean): void;
           toggleAll(): void;
           toggleCategory(checked: boolean, category: Category): void;
           toggleGroup(checked: boolean, group: CategoryGroup): void;
@@ -45,6 +47,7 @@ export const useBudgetTable = () => {
 export const BudgetTableProvider = ({ children, categories, groups }: PropsWithChildren<BudgetTableInputs>) => {
     const checkbox = useRef<HTMLInputElement>(null!);
     const [checked, setChecked] = useState<boolean>(false);
+    const [allHidden, setAllHidden] = useState<boolean>(false);
     const [indeterminate, setIndeterminate] = useState<boolean>(false);
     const [selectedGroups, setSelectedGroups] = useState<CategoryGroup[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
@@ -107,8 +110,10 @@ export const BudgetTableProvider = ({ children, categories, groups }: PropsWithC
                 // pass the rest of our props
                 checkboxRef: checkbox,
                 checked,
+                allHidden,
                 selectedCategories,
                 selectedGroups,
+                setAllHidden,
                 toggleAll,
                 toggleCategory,
                 toggleGroup,
