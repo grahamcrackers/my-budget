@@ -1,5 +1,5 @@
 {
-    "name": "tailwind-config",
+    "name": "@my-budget/tailwind",
     "version": "0.0.0",
     "private": true,
     "files": [

@@ -36,9 +36,22 @@ docker compose down
 docker compose down -v
 ```
 
--   Note: The `JWT_KEY_OR_SECRET` in the .env file should match the `secret` field in the `./config/mybudget-realm.json` file. I haven't figured out a way to inject the secret from the `.env` to the docker container yet.
-
 ## Helpful Articles
-- [Atomic Component Design](https://atomicdesign.bradfrost.com/chapter-2/)
-- [Typescript + React Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
-- [Error Handling](https://medium.com/with-orus/the-5-commandments-of-clean-error-handling-in-typescript-93a9cbdf1af5)
+
+-   [Atomic Component Design](https://atomicdesign.bradfrost.com/chapter-2/)
+-   [Typescript + React Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
+-   [Error Handling](https://medium.com/with-orus/the-5-commandments-of-clean-error-handling-in-typescript-93a9cbdf1af5)
+
+## Emojis for Commit's
+You can find more on [gitmoji](https://gitmoji.dev/) or [this list](https://gist.github.com/rxaviers/7360908) that contains all github emoji's. The one's below are the ones I've used so far or plan to use.
+
+-   :sparkles: `:sparkles:` - new feature
+-   :package: `:package:` - new package
+-   :bug: `:bug:` - bugs
+-   :memo: `:memo:` - documentation
+-   :books: `:books:` - storybook/stories
+-   :truck: `:truck:` - moving files
+-   :earth_americas: `:earth_americas:` - .env/global variables
+-   :whale: `:whale:` - docker/doc
+-   :construction: `:construction:` - work in progress
+-   :gear: `:gear:` - config/settings 

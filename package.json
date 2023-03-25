@@ -4,12 +4,13 @@
     "private": true,
     "workspaces": [
         "apps/*",
-        "packages/*",
-        "local/*"
+        "local/*",
+        "packages/*"
     ],
     "scripts": {
         "build": "turbo run build",
         "dev": "dotenv -- turbo run dev",
+        "dev:storybook": "dotenv -- turbo run dev --filter=stories...",
         "test": "turbo run test",
         "test:watch": "turbo run test:watch",
         "lint": "turbo run lint",
@@ -21,7 +22,7 @@
     },
     "devDependencies": {
         "dotenv-cli": "^7.0.0",
-        "eslint-config-custom": "*",
+        "eslint-config-my-budget": "*",
         "prettier": "^2.8.4",
         "turbo": "latest"
     },
