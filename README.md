@@ -45,12 +45,13 @@ docker compose down -v
 ## Emojis for Commit's
 You can find more on [gitmoji](https://gitmoji.dev/) or [this list](https://gist.github.com/rxaviers/7360908) that contains all github emoji's. The one's below are the ones I've used so far or plan to use.
 
--   :sparkles: `:sparkles:` - features
+-   :sparkles: `:sparkles:` - new feature
+-   :package: `:package:` - new package
 -   :bug: `:bug:` - bugs
 -   :memo: `:memo:` - documentation
 -   :books: `:books:` - storybook/stories
 -   :truck: `:truck:` - moving files
--   :package: `:package:` - package config
 -   :earth_americas: `:earth_americas:` - .env/global variables
 -   :whale: `:whale:` - docker/doc
 -   :construction: `:construction:` - work in progress
+-   :gear: `:gear:` - config/settings 
