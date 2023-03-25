@@ -34,7 +34,7 @@ function waitForTransition(node: HTMLElement, done: () => void) {
 
     if (totalDuration !== 0) {
         // eslint-disable-next-line turbo/no-undeclared-env-vars
-        if (process.env.NODE_ENV === "test") {
+        if (NODE_ENV === "test") {
             const dispose = d.setTimeout(() => {
                 done();
                 dispose();

@@ -15,7 +15,7 @@ export function useOutsideClick(
     const enabledRef = useRef(false);
     useEffect(
         // eslint-disable-next-line turbo/no-undeclared-env-vars
-        process.env.NODE_ENV === "test"
+        NODE_ENV === "test"
             ? () => {
                   enabledRef.current = enabled;
               }

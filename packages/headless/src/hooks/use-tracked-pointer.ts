@@ -15,7 +15,7 @@ export function useTrackedPointer() {
             // NOTE: This is replaced with a compile-time define during the build process
             // This hack exists to work around a few failing tests caused by our inability to "move" the virtual pointer in JSDOM pointer events.
             // eslint-disable-next-line turbo/no-undeclared-env-vars
-            if (process.env.TEST_BYPASS_TRACKED_POINTER) {
+            if (TEST_BYPASS_TRACKED_POINTER) {
                 return true;
             }
 

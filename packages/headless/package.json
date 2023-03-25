@@ -10,8 +10,8 @@
         "dist/**"
     ],
     "scripts": {
-        "build": "tsup src/index.tsx --format esm,cjs --dts --external react",
-        "dev": "tsup src/index.tsx --format esm,cjs --watch --dts --external react",
+        "build": "tsup src/index.tsx --format esm,cjs --dts --external react --env.NODE_ENV production",
+        "dev": "tsup src/index.tsx --format esm,cjs --watch --dts --external react --env.NODE_ENV development",
         "lint": "eslint \"**/*.ts*\""
     },
     "dependencies": {

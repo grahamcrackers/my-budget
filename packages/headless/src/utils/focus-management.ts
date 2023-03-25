@@ -17,7 +17,7 @@ const focusableSelector = [
 ]
     .map(
         // eslint-disable-next-line turbo/no-undeclared-env-vars
-        process.env.NODE_ENV === "test"
+        NODE_ENV === "test"
             ? // TODO: Remove this once JSDOM fixes the issue where an element that is
               // "hidden" can be the document.activeElement, because this is not possible
               // in real browsers.

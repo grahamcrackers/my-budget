@@ -519,7 +519,7 @@ function TransitionRootFn<TTag extends ElementType = typeof DEFAULT_TRANSITION_C
             setState(TreeStates.Hidden);
         } else if (
             // eslint-disable-next-line turbo/no-undeclared-env-vars
-            process.env.NODE_ENV !==
+            NODE_ENV !==
             "test" /* TODO: Remove this once we have real tests! JSDOM doesn't "render", therefore getBoundingClientRect() will always result in `0`. */
         ) {
             const node = internalTransitionRef.current;
