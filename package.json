@@ -9,7 +9,7 @@
     ],
     "scripts": {
         "build": "turbo run build",
-        "dev": "dotenv -- turbo run dev",
+        "dev": "dotenv -- turbo run dev --filter=!stories",
         "dev:storybook": "dotenv -- turbo run dev --filter=stories...",
         "test": "turbo run test",
         "test:watch": "turbo run test:watch",

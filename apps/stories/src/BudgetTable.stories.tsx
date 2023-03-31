@@ -9,9 +9,9 @@ const meta = {
     tags: ["autodocs"],
     decorators: [
         (Story) => (
-            <BudgetTableProvider categories={categories} groups={groups}>
-                <Story />
-            </BudgetTableProvider>
+            // <BudgetTableProvider categories={categories} groups={groups}>
+            <Story />
+            // </BudgetTableProvider>
         ),
     ],
 } satisfies Meta<typeof BudgetTable>;

@@ -7,5 +7,5 @@ export interface Category {
     activity: number;
     available: number;
     groupId: string;
-    group?: CategoryGroup;
+    // group?: CategoryGroup;
 }

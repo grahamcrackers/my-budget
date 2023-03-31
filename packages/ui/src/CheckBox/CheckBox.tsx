@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
 
 export interface CheckBoxProps extends ComponentPropsWithoutRef<"input"> {
-    indetermiate?: boolean;
+    indeterminate?: boolean;
 }
 
 export type CheckBoxRef = HTMLInputElement;
@@ -9,12 +9,12 @@ export type CheckBoxRef = HTMLInputElement;
 /**
  * An indeterminate checkbox
  */
-export function CheckBox({ indetermiate = false, ...props }: CheckBoxProps) {
+export function CheckBox({ indeterminate = false, ...props }: CheckBoxProps) {
     const checkboxRef = useRef<HTMLInputElement>(null!);
 
     useEffect(() => {
-        checkboxRef.current.indeterminate = indetermiate;
-    }, [indetermiate]);
+        checkboxRef.current.indeterminate = indeterminate;
+    }, [checkboxRef, indeterminate]);
 
     return (
         <input

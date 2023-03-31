@@ -1,27 +1,124 @@
 import { classNames } from "@my-budget/common";
-import React, { Fragment } from "react";
+import React, { Fragment, HTMLProps, useState } from "react";
 import { CheckBox } from "../CheckBox";
 import { useBudgetTable } from "./Context";
 import { CategoryRow } from "./CategoryRow";
 import { CategoryGroupRow } from "./CategoryGroupRow";
 import { CheckCircleIcon, ChevronDownIcon, ChevronRightIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { TableBody } from "./TableBody";
+import {
+    ColumnDef,
+    ExpandedState,
+    createColumnHelper,
+    flexRender,
+    getCoreRowModel,
+    getExpandedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import { GroupWithCategories, createBudgetTableRows } from "../BudgetTable2/utils";
+import { categories, groups } from "@my-budget/mocks";
 
-export const BudgetTable: React.FC = () => {
-    const {
-        categories,
-        groups,
-        checkboxRef,
-        checked,
-        allHidden,
-        selectedCategories,
-        setAllHidden,
-        toggleAll,
-        toggleCategory,
-        toggleGroup,
-        isIndeterminate,
-        isChecked,
-    } = useBudgetTable();
+// const columnHelper = createColumnHelper<GroupWithCategories>();
+
+// const columns =
+
+// *sigh* fuck it, we are going to use `react-table`
+export function BudgetTable() {
+    const columns = React.useMemo<ColumnDef<GroupWithCategories>[]>(
+        () => [
+            {
+                id: "selector",
+                header: ({ table }) => (
+                    <CheckBox
+                        {...{
+                            checked: table.getIsAllRowsSelected(),
+                            indeterminate: table.getIsSomeRowsSelected() || false,
+                            onChange: table.getToggleAllRowsSelectedHandler(),
+                        }}
+                    />
+                ),
+                cell: ({ row, getValue }) => (
+                    <CheckBox
+                        {...{
+                            checked: row.getIsSelected(),
+                            indeterminate: row.getIsSomeSelected() || false,
+                            onChange: row.getToggleSelectedHandler(),
+                        }}
+                    />
+                ),
+            },
+            {
+                id: "expander",
+                header: ({ table }) => (
+                    <button
+                        {...{
+                            onClick: table.getToggleAllRowsExpandedHandler(),
+                        }}
+                    >
+                        {table.getIsAllRowsExpanded() ? "👇" : "👉"}
+                    </button>
+                ),
+                cell: ({ row, getValue }) => (
+                    <div>
+                        <>
+                            {row.getCanExpand() && (
+                                <button
+                                    {...{
+                                        onClick: row.getToggleExpandedHandler(),
+                                        style: { cursor: "pointer" },
+                                    }}
+                                >
+                                    {row.getIsExpanded() ? "👇" : "👉"}
+                                </button>
+                            )}
+                        </>
+                    </div>
+                ),
+            },
+            {
+                id: "name",
+                header: () => "Category",
+                accessorFn: (row) => row.name,
+            },
+            {
+                id: "activity",
+                header: () => "Activity",
+                accessorFn: (row) => row.activity,
+            },
+            {
+                id: "assigned",
+                header: () => "Assigned",
+                accessorFn: (row) => row.assigned,
+            },
+            {
+                id: "available",
+                header: () => "Available",
+                accessorFn: (row) => row.available,
+            },
+        ],
+        [],
+    );
+
+    const [data, setData] = useState(() => createBudgetTableRows(groups, categories));
+
+    const [rowSelection, setRowSelection] = useState({});
+    const [expanded, setExpanded] = useState<ExpandedState>(true);
+
+    const table = useReactTable({
+        data,
+        columns,
+        state: {
+            rowSelection,
+            expanded,
+        },
+        enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
+        onExpandedChange: setExpanded,
+        getSubRows: (row) => row.categories,
+        getCoreRowModel: getCoreRowModel(),
+        getExpandedRowModel: getExpandedRowModel(),
+        debugTable: true,
+    });
 
     return (
         <div className="px-4 sm:px-6 lg:px-8">
@@ -71,6 +168,26 @@ export const BudgetTable: React.FC = () => {
                             )} */}
                         <table className="min-w-full overflow-y-auto divide-y divide-gray-300">
                             <thead>
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <tr key={headerGroup.id}>
+                                        {headerGroup.headers.map((header) => {
+                                            return (
+                                                <th key={header.id} colSpan={header.colSpan}>
+                                                    {header.isPlaceholder ? null : (
+                                                        <div>
+                                                            {flexRender(
+                                                                header.column.columnDef.header,
+                                                                header.getContext(),
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </th>
+                                            );
+                                        })}
+                                    </tr>
+                                ))}
+                            </thead>
+                            {/* <thead>
                                 <tr>
                                     <th scope="col" className="relative px-7 sm:w-12 sm:px-6">
                                         <input
@@ -115,8 +232,23 @@ export const BudgetTable: React.FC = () => {
                                         Available
                                     </th>
                                 </tr>
-                            </thead>
-                            <TableBody />
+                            </thead> */}
+                            <tbody>
+                                {table.getRowModel().rows.map((row) => {
+                                    return (
+                                        <tr key={row.id}>
+                                            {row.getVisibleCells().map((cell) => {
+                                                return (
+                                                    <td key={cell.id}>
+                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                            {/* <TableBody />    */}
                             {/* <tbody className="bg-white divide-y divide-gray-200">
                                 {groups.map((group) => (
                                     <Fragment key={group.id}>
@@ -137,4 +269,4 @@ export const BudgetTable: React.FC = () => {
             </div>
         </div>
     );
-};
+}
