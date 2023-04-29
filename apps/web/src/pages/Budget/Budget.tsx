@@ -1,17 +1,17 @@
 import { Category, CategoryGroup } from "@my-budget/common";
 import { BudgetTable, BudgetTableProvider, Page } from "@my-budget/ui";
 import { useEffect, useState } from "react";
+import { useCategoriesStore, useGroupsStore } from "../../hooks";
 
 export const Budget = () => {
-    const [groups, setGroups] = useState<CategoryGroup[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const { groups, setGroups } = useGroupsStore();
+    const { categories, setCategories } = useCategoriesStore();
 
     useEffect(() => {
         (async () => {
             const response = await fetch("/groups");
             const data = await response.json();
             setGroups(data);
-            // setGroups(data);
         })();
     }, []);
 
@@ -20,9 +20,12 @@ export const Budget = () => {
             const response = await fetch("/categories");
             const data = await response.json();
             setCategories(data);
-            // setGroups(data);
         })();
     }, []);
+
+    const handleSelectedRows = (id: string) => {
+        console.log(id);
+    };
 
     return (
         <Page>

@@ -31,6 +31,7 @@ interface GroupWithCategories extends Omit<Category, "groupId"> {
 export interface BudgetTableInputs {
     categories: Category[];
     groups: CategoryGroup[];
+    onSelect?(id: string): string[];
 }
 
 const BudgetTableContext = createContext<({ table: Table<GroupWithCategories> } & BudgetTableInputs) | null>(null);
@@ -46,11 +47,26 @@ export const useBudgetTable = () => {
     return context;
 };
 
-export const BudgetTableProvider = ({ children, categories, groups }: PropsWithChildren<BudgetTableInputs>) => {
+export const BudgetTableProvider = ({ children, categories, groups, onSelect }: PropsWithChildren<BudgetTableInputs>) => {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
     const [expanded, setExpanded] = useState<ExpandedState>(true);
 
-    const toggleExpandAllRows = (row: Row<GroupWithCategories>) => {};
+    const [ids, setIds] = useState<string[]>([]);
+
+    const toggleExpandRow = (row: Row<GroupWithCategories>) => {
+        row.getToggleExpandedHandler()();
+        // because this is an instance of the current row, it will be the opposite of the action we just performed
+        // so we can set !row.getIsExpanded(); to get the desired effect of adding or removing the id
+        const isExpanded = !row.getIsExpanded();
+        setIds(isExpanded ? [...ids, row.original.id] : ids.filter((id) => id !== row.original.id));
+        // console.log(isExpanded);
+        // console.log(row.original);
+    };
+
+    const handleRowSelectionChange = (rowSelection: RowSelectionState) => {
+        setRowSelection(row)
+
+    }
 
     const columns = useMemo<ColumnDef<GroupWithCategories>[]>(
         () => [
@@ -90,26 +106,29 @@ export const BudgetTableProvider = ({ children, categories, groups }: PropsWithC
                         )}
                     </button>
                 ),
-                cell: ({ row, getValue }) => (
-                    <div>
-                        <>
-                            {row.getCanExpand() && (
-                                <button
-                                    {...{
-                                        onClick: row.getToggleExpandedHandler(),
-                                        style: { cursor: "pointer" },
-                                    }}
-                                >
-                                    {row.getIsExpanded() ? (
-                                        <ChevronDownIcon className="w-4 h-4" />
-                                    ) : (
-                                        <ChevronRightIcon className="w-4 h-4" />
-                                    )}
-                                </button>
-                            )}
-                        </>
-                    </div>
-                ),
+                cell: ({ row, getValue }) => {
+                    // console.log(row.getIsExpanded());
+                    return (
+                        <div>
+                            <>
+                                {row.getCanExpand() && (
+                                    <button
+                                        {...{
+                                            onClick: () => toggleExpandRow(row),
+                                            style: { cursor: "pointer" },
+                                        }}
+                                    >
+                                        {row.getIsExpanded() ? (
+                                            <ChevronDownIcon className="w-4 h-4" />
+                                        ) : (
+                                            <ChevronRightIcon className="w-4 h-4" />
+                                        )}
+                                    </button>
+                                )}
+                            </>
+                        </div>
+                    );
+                },
             },
             {
                 id: "name",
@@ -143,7 +162,7 @@ export const BudgetTableProvider = ({ children, categories, groups }: PropsWithC
             expanded,
         },
         enableRowSelection: true,
-        onRowSelectionChange: setRowSelection,
+        onRowSelectionChange: handleRowSelectionChange,
         onExpandedChange: setExpanded,
         getSubRows: (row) => row.categories,
         getCoreRowModel: getCoreRowModel(),
