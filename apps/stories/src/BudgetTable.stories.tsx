@@ -9,7 +9,11 @@ const meta = {
     tags: ["autodocs"],
     decorators: [
         (Story) => (
-            <BudgetTableProvider categories={categories} groups={groups}>
+            <BudgetTableProvider
+                categories={categories}
+                groups={groups}
+                onSelected={(categories) => console.log(categories)}
+            >
                 <Story />
             </BudgetTableProvider>
         ),

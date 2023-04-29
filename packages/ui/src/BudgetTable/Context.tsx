@@ -12,19 +12,22 @@ import {
 export interface BudgetTableInputs {
     categories: Category[];
     groups: CategoryGroup[];
+    onSelected?(categories: Category[]): void;
 }
 
 const BudgetTableContext = createContext<
     | ({
           checkboxRef: MutableRefObject<HTMLInputElement | null>;
           checked: boolean;
-          allHidden: boolean;
+          collapsed: boolean;
           selectedCategories: Category[];
           selectedGroups: CategoryGroup[];
-          setAllHidden(allHidden: boolean): void;
+          collapsedGroups: CategoryGroup[];
           toggleAll(): void;
+          collapseAll(): void;
           toggleCategory(checked: boolean, category: Category): void;
           toggleGroup(checked: boolean, group: CategoryGroup): void;
+          collapseGroup(collapse: boolean, group: CategoryGroup): void;
           isIndeterminate(groupId: string, selectedCategories: Category[]): boolean;
           isChecked(groupId: string, selectedCategories: Category[]): boolean;
       } & BudgetTableInputs)
@@ -44,11 +47,17 @@ export const useBudgetTable = () => {
 
 // consider a reducer
 
-export const BudgetTableProvider = ({ children, categories, groups }: PropsWithChildren<BudgetTableInputs>) => {
+export const BudgetTableProvider = ({
+    children,
+    categories,
+    groups,
+    onSelected,
+}: PropsWithChildren<BudgetTableInputs>) => {
     const checkbox = useRef<HTMLInputElement>(null!);
     const [checked, setChecked] = useState<boolean>(false);
-    const [allHidden, setAllHidden] = useState<boolean>(false);
+    const [collapsed, setCollapsed] = useState<boolean>(false);
     const [indeterminate, setIndeterminate] = useState<boolean>(false);
+    const [collapsedGroups, setCollapsedGroups] = useState<CategoryGroup[]>([]);
     const [selectedGroups, setSelectedGroups] = useState<CategoryGroup[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
 
@@ -57,13 +66,24 @@ export const BudgetTableProvider = ({ children, categories, groups }: PropsWithC
         setChecked(selectedCategories.length === categories.length);
         setIndeterminate(isIndeterminate);
         checkbox.current.indeterminate = isIndeterminate;
+
+        if (onSelected) onSelected(selectedCategories);
     }, [selectedCategories, selectedGroups]);
+
+    useLayoutEffect(() => {
+        setCollapsed(collapsedGroups.length === groups.length);
+    }, [collapsedGroups]);
 
     const toggleAll = () => {
         setSelectedCategories(checked || indeterminate ? [] : categories);
         setSelectedGroups(checked || indeterminate ? [] : groups);
         setChecked(!checked && !indeterminate);
         setIndeterminate(false);
+    };
+
+    const collapseAll = () => {
+        setCollapsedGroups(collapsed ? [] : groups);
+        setCollapsed(!collapsed);
     };
 
     const toggleCategory = (checked: boolean, category: Category) => {
@@ -82,6 +102,10 @@ export const BudgetTableProvider = ({ children, categories, groups }: PropsWithC
                 ? Array.from(new Set([...selectedCategories, ...newCategories])) // removes duplicates
                 : selectedCategories.filter((c) => c.groupId !== group.id),
         );
+    };
+
+    const collapseGroup = (collapsed: boolean, group: CategoryGroup) => {
+        setCollapsedGroups(collapsed ? [...collapsedGroups, group] : collapsedGroups.filter((g) => g !== group));
     };
 
     // can this be refactored? probably. but it works for right now
@@ -110,13 +134,15 @@ export const BudgetTableProvider = ({ children, categories, groups }: PropsWithC
                 // pass the rest of our props
                 checkboxRef: checkbox,
                 checked,
-                allHidden,
+                collapsed,
                 selectedCategories,
                 selectedGroups,
-                setAllHidden,
+                collapsedGroups,
                 toggleAll,
+                collapseAll,
                 toggleCategory,
                 toggleGroup,
+                collapseGroup,
                 isIndeterminate,
                 isChecked,
             }}

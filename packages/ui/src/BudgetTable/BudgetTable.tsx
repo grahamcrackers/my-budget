@@ -1,27 +1,10 @@
-import { classNames } from "@my-budget/common";
-import React, { Fragment } from "react";
-import { CheckBox } from "../CheckBox";
+import { ChevronDownIcon, ChevronRightIcon, PlusIcon } from "@heroicons/react/20/solid";
+import React from "react";
 import { useBudgetTable } from "./Context";
-import { CategoryRow } from "./CategoryRow";
-import { CategoryGroupRow } from "./CategoryGroupRow";
-import { CheckCircleIcon, ChevronDownIcon, ChevronRightIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { TableBody } from "./TableBody";
 
 export const BudgetTable: React.FC = () => {
-    const {
-        categories,
-        groups,
-        checkboxRef,
-        checked,
-        allHidden,
-        selectedCategories,
-        setAllHidden,
-        toggleAll,
-        toggleCategory,
-        toggleGroup,
-        isIndeterminate,
-        isChecked,
-    } = useBudgetTable();
+    const { checkboxRef, checked, collapsed, collapseAll, toggleAll } = useBudgetTable();
 
     return (
         <div className="px-4 sm:px-6 lg:px-8">
@@ -82,8 +65,8 @@ export const BudgetTable: React.FC = () => {
                                         />
                                     </th>
                                     <th scope="col" className="text-sm font-semibold text-left text-gray-900">
-                                        <button onClick={() => setAllHidden(!allHidden)}>
-                                            {allHidden ? (
+                                        <button onClick={collapseAll}>
+                                            {collapsed ? (
                                                 <ChevronRightIcon className="w-4 h-4" />
                                             ) : (
                                                 <ChevronDownIcon className="w-4 h-4" />

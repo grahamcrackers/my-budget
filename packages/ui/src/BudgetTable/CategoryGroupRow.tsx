@@ -1,21 +1,17 @@
-import { CategoryGroup } from "@my-budget/common";
-import { CheckBox } from "../CheckBox";
-import { useBudgetTable } from "./Context";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import { Fragment, useLayoutEffect, useState } from "react";
+import { CategoryGroup } from "@my-budget/common";
+import { Fragment } from "react";
+import { CheckBox } from "../CheckBox";
 import { CategoryRow } from "./CategoryRow";
+import { useBudgetTable } from "./Context";
 
 export interface CategoryGroupRowProps {
     group: CategoryGroup;
 }
 
 export const CategoryGroupRow = ({ group }: CategoryGroupRowProps) => {
-    const { categories, selectedCategories, allHidden, toggleGroup, isIndeterminate, isChecked } = useBudgetTable();
-    const [isHidden, setIsHidden] = useState(false);
-
-    useLayoutEffect(() => {
-        setIsHidden(allHidden);
-    }, [allHidden]);
+    const { categories, selectedCategories, collapsedGroups, toggleGroup, collapseGroup, isIndeterminate, isChecked } =
+        useBudgetTable();
 
     // can probably be implemented better but i'm just trying to get everything layed out on the page
     const getCategorySum = (type: "assigned" | "activity" | "available") => {
@@ -26,6 +22,8 @@ export const CategoryGroupRow = ({ group }: CategoryGroupRowProps) => {
 
         return sum;
     };
+
+    const isCollapsed = collapsedGroups.includes(group);
 
     return (
         <Fragment>
@@ -41,8 +39,12 @@ export const CategoryGroupRow = ({ group }: CategoryGroupRowProps) => {
                     />
                 </th>
                 <th scope="col" className="text-sm font-semibold text-left text-gray-900">
-                    <button onClick={() => setIsHidden(!isHidden)}>
-                        {isHidden ? <ChevronRightIcon className="w-4 h-4" /> : <ChevronDownIcon className="w-4 h-4" />}
+                    <button onClick={() => collapseGroup(!isCollapsed, group)}>
+                        {isCollapsed ? (
+                            <ChevronRightIcon className="w-4 h-4" />
+                        ) : (
+                            <ChevronDownIcon className="w-4 h-4" />
+                        )}
                     </button>
                 </th>
                 <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
@@ -58,7 +60,7 @@ export const CategoryGroupRow = ({ group }: CategoryGroupRowProps) => {
                     {getCategorySum("available")}
                 </th>
             </tr>
-            {!isHidden &&
+            {!isCollapsed &&
                 categories.map(
                     (category) =>
                         category.groupId === group.id && <CategoryRow key={category.id} category={category} />,
