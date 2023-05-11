@@ -17,7 +17,8 @@
     "dependencies": {
         "@headlessui/react": "^1.7.13",
         "@heroicons/react": "^2.0.16",
-        "@my-budget/common": "*"
+        "@my-budget/common": "*",
+        "react-hook-form": "^7.43.9"
     },
     "devDependencies": {
         "@my-budget/tailwind": "*",

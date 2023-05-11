@@ -9,17 +9,22 @@
 
 -   [ ] move eslint and tsconfig in api app to their own config package
 
-## Frontend Things
+## Frontend
 
 -   [ ] Keycloak custom login/register screens
 
-## Backend Things
+### List of Frontend Components
+- Navigation Sidebar
+- Budget View
+  - 
+
+## Backend
 
 -   [ ] Swagger Docs
 -   [x] Config Service
 -   [ ] Input Validation
 
-## Database Things
+## Database
 
 -   [ ] seed database
 -   [ ] Budgets

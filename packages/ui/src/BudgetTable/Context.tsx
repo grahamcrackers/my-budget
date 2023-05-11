@@ -53,7 +53,7 @@ export const BudgetTableProvider = ({
     groups,
     onSelected,
 }: PropsWithChildren<BudgetTableInputs>) => {
-    const checkbox = useRef<HTMLInputElement>(null!);
+    const checkbox = useRef<HTMLInputElement>(null);
     const [checked, setChecked] = useState<boolean>(false);
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [indeterminate, setIndeterminate] = useState<boolean>(false);
@@ -65,7 +65,9 @@ export const BudgetTableProvider = ({
         const isIndeterminate = selectedCategories.length > 0 && selectedCategories.length < categories.length;
         setChecked(selectedCategories.length === categories.length);
         setIndeterminate(isIndeterminate);
-        checkbox.current.indeterminate = isIndeterminate;
+        if (checkbox && checkbox.current) {
+            checkbox.current.indeterminate = isIndeterminate;
+        }
 
         if (onSelected) onSelected(selectedCategories);
     }, [selectedCategories, selectedGroups]);
