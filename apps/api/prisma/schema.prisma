@@ -11,12 +11,12 @@ model Budget {
     id         String    @id @default(uuid())
     name       String
     firstMonth DateTime  @default(now())
-    lastMonth  DateTime?  
+    lastMonth  DateTime?
     created    DateTime  @default(now())
     createdBy  String    @db.Uuid
     updated    DateTime  @updatedAt
     updatedBy  String    @db.Uuid
-    Account    Account[]
+    accounts   Account[]
 
     @@map("budgets")
 }
@@ -36,7 +36,6 @@ model Account {
 
     @@map("accounts")
 }
-
 
 // LKP Tables
 // DateFormat

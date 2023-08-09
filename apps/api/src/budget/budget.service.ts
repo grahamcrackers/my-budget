@@ -24,6 +24,9 @@ export class BudgetService {
             cursor,
             where,
             orderBy,
+            include: { 
+                accounts: true 
+            }
         });
     }
 

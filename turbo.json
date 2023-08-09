@@ -10,7 +10,8 @@
         },
         "build": {
             "dependsOn": [
-                "^build"
+                "^build",
+                "^dist"
             ],
             "outputs": [
                 "dist/**",

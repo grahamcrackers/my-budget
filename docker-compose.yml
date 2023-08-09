@@ -29,6 +29,7 @@ services:
             KEYCLOAK_ADMIN: budgetadmin
             KEYCLOAK_ADMIN_PASSWORD: budgetadmin
             KC_HOSTNAME: localhost
+            JWT_SECRET_OR_KEY: "${JWT_SECRET_OR_KEY}"
         links:
             - postgres
         volumes:
